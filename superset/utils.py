@@ -21,6 +21,7 @@ import zlib
 
 from builtins import object
 from datetime import date, datetime, time
+from time import gmtime
 from dateutil.parser import parse
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -201,7 +202,7 @@ def parse_human_datetime(s):
     except Exception:
         try:
             cal = parsedatetime.Calendar()
-            dttm = dttm_from_timtuple(cal.parse(s)[0])
+            dttm = dttm_from_timtuple(cal.parse(s, sourceTime=gmtime())[0])
         except Exception as e:
             logging.exception(e)
             raise ValueError("Couldn't parse date string [{}]".format(s))
